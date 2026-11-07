@@ -12,7 +12,7 @@ A package (the binary) for an app or a game, and its `items/<name>.toml` (not a 
 ## Checklist
 
 - [ ] I built the package from the commit above.
-- [ ] The package `repos/official/<name>-<version>.<ext>` and `repos/official/items/<name>.toml` are both in this change, following `docs/submissions.md`.
+- [ ] The package `repos/official/apps/<name>-<version>.<ext>` and `repos/official/items/<name>.toml` are both in this change, following `docs/submissions.md`.
 - [ ] `title` is at most 31 characters, `desc` at most 79 and `category` at most 15 (`check` refuses longer ones; a device would drop the entry).
 - [ ] I did not write `size`, `sha256` or `url`; the owner's `build` fills them in.
 - [ ] The permissions in the toml are the permissions in the package.

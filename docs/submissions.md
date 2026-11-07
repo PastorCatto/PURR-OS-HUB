@@ -1,6 +1,6 @@
 # Submissions: third-party apps and games
 
-Anyone can run their own repository under their own key and rules; a user adds it in the Store. To be listed in **this** hub instead, open a pull request that adds the **package** (the binary) to `repos/official/`, together with its `items/<name>.toml` description. Third-party apps are unprivileged. Third-party shells and anything privileged (drivers, modules, kernel images) are not accepted here: they stay in the author's own repository, and a pull request that adds one is closed.
+Anyone can run their own repository under their own key and rules; a user adds it in the Store. To be listed in **this** hub instead, open a pull request that adds the **package** (the binary) to `repos/official/apps/`, together with its `items/<name>.toml` description. Third-party apps are unprivileged. Third-party shells and anything privileged (drivers, modules, kernel images) are not accepted here: they stay in the author's own repository, and a pull request that adds one is closed.
 
 ## What a submission says
 
@@ -8,7 +8,7 @@ The `items/<name>.toml` carries `name`, `title`, `version`, `desc`, `type` (`app
 
 The package is built by the author from that commit. The author may sign it with their own key or leave it unsigned; either way a device accepts it because the hub's signed index vouches for those exact bytes (the size and sha256 in the signed entry), and only as an unprivileged app. Devices do not trust an author's key, and the project's developer key is not used for third-party apps.
 
-`submissions/item.example.toml` is an example. For it, a contributor adds the package `repos/official/clock-1.2.0.cat` and its description `repos/official/items/clock.toml`; the package file is named `<name>-<version>.<ext>`.
+`submissions/item.example.toml` is an example. For it, a contributor adds the package `repos/official/apps/clock-1.2.0.cat` and its description `repos/official/items/clock.toml`; the package file is named `<name>-<version>.<ext>`.
 
 Keep the texts short: `title` is at most 31 characters, `desc` at most 79 and `category` at most 15. A device drops a whole index entry if one of its texts is longer than the device keeps, so `check` refuses a longer one rather than let an entry that no device would show be signed.
 
