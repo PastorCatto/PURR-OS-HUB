@@ -20,7 +20,7 @@ submissions/                   the entry schema and an example for pull requests
 docs/                          these documents
 ```
 
-One signing tool will be added when signing starts.
+`tools/hubsign.py` is the one tool that checks and signs the repositories; `tools/test_hubsign.py` tests it. To run your own store from a copy of this repository, see [fork.md](fork.md).
 
 ## What is committed and what is not
 

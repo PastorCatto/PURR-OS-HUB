@@ -8,11 +8,11 @@ The `items/<name>.toml` carries `name`, `title`, `version`, `desc`, `type` (`app
 
 The package is built by the author from that commit. The author may sign it with their own key or leave it unsigned; either way a device accepts it because the hub's signed index vouches for those exact bytes (the size and sha256 in the signed entry), and only as an unprivileged app. Devices do not trust an author's key, and the project's developer key is not used for third-party apps.
 
-The `url`, `size` and `sha256` of an index entry are not written by hand: the signing step computes them from the package. `submissions/entry.example.json` shows the finished entry in the index; its all-zero sha256 is a placeholder, and a real entry carries the package's real sha256 and size.
+The `url`, `size` and `sha256` of an index entry are not written by hand: `tools/hubsign.py` computes them from the package. `submissions/entry.example.json` shows the finished entry in the index; its all-zero sha256 is a placeholder, and a real entry carries the package's real sha256 and size.
 
 ## What CI checks
 
-CI only checks; it publishes nothing and never holds the hub key or a passphrase.
+CI only checks (`python3 tools/hubsign.py check --strict`, which needs no key); it publishes nothing and never holds the hub key or a passphrase.
 
 - the package is within the size caps and is a valid app image whose name and version match the toml;
 - the sha256 and size are the package's own;
@@ -23,4 +23,4 @@ CI only checks; it publishes nothing and never holds the hub key or a passphrase
 
 ## What the owner does
 
-Reads the change and merges it, then runs one local command that rebuilds `index.json`, signs it with the hub key (id 5) and pushes. A merged item is **not offered to any device** until that signed index is pushed: that is the review gate.
+Reads the change and merges it, then runs one local command, `python3 tools/hubsign.py build`, which rebuilds `index.json` and signs it with the hub key (id 5), and then pushes the result. A merged item is **not offered to any device** until that signed index is pushed: that is the review gate.
