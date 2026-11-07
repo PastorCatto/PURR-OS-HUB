@@ -10,13 +10,15 @@ The package is built by the author from that commit. The author may sign it with
 
 `submissions/item.example.toml` is an example. For it, a contributor adds the package `repos/apps/clock-1.2.0.cat` and its description `repos/apps/items/clock.toml`; the package file is named `<name>-<version>.<ext>`.
 
+Keep the texts short: `title` is at most 31 characters, `desc` at most 79 and `category` at most 15. A device drops a whole index entry if one of its texts is longer than the device keeps, so `check` refuses a longer one rather than let an entry that no device would show be signed.
+
 The contributor does **not** write `size`, `sha256` or `url`: `python3 tools/hubsign.py build` fills them in from the package when the owner signs. `commit` and `licence` are for the reviewer and are not copied into the index (the tool ignores fields it does not know). Whether a licence ever reaches the Store is still the owner's open decision.
 
 ## What CI checks
 
 CI runs `python3 tools/hubsign.py check --strict`, which needs no key. It publishes nothing and never holds the hub key or a passphrase. It is switched on only after the first `build`, because an unsigned repository fails the strict check. It checks:
 
-- names, versions and types in the toml, and that exactly one package file matches each item;
+- names, versions and types in the toml, and the text lengths a device keeps (title, desc, category, min_os, dest, chip, a permission, a version of at most 15 characters, a package file name a device accepts), and that exactly one package file matches each item;
 - sizes (within the caps) and that the package's payload hash matches its header;
 - the shell rules (a shell must be a signed loadable shell module of at most 1 MB with `dest = "shell.cat"`), and that an app is a PURR app package and a module is not an item;
 - that the existing signatures verify and that `index.json` is not out of date.

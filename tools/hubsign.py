@@ -38,7 +38,11 @@ MAGIC = 0x50555252                    # the package header, as in the firmware's
 HEADER_FORMAT = "<IBHHBBH32s12s12sII32s64s"
 HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
 NAME_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,30}$")
-VERSION_RE = re.compile(r"^[0-9][0-9A-Za-z.+_-]{0,23}$")
+VERSION_RE = re.compile(r"^[0-9][0-9A-Za-z.+-]{0,14}$")                # a device reads at most 15 characters and no underscore
+URL_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,94}$")              # a device refuses a longer path, one starting with a dot, ".." or "//"
+# The longest text a device keeps for each field (its buffer less the end mark). A longer one makes the device drop the WHOLE entry: it would never be offered.
+FIELD_MAX = {"title": 31, "desc": 79, "category": 15, "min_os": 11, "dest": 63, "chip": 11}
+PERM_MAX = 23
 NOT_PACKAGES = (".json", ".sig", ".toml", ".md", ".txt")
 
 
@@ -236,12 +240,20 @@ def read_items(folder):
         if item.get("target", "flash") not in TARGETS:
             problems.append("%s: target is one of %s." % (where, ", ".join(TARGETS)))
             continue
+        for field, longest in sorted(FIELD_MAX.items()):
+            if len(str(item.get(field, ""))) > longest:
+                problems.append("%s: %s is %d characters; a device keeps at most %d and would drop the whole entry." % (where, field, len(str(item[field])), longest))
+        for perm in item.get("perms", []) or []:
+            if len(str(perm)) > PERM_MAX:
+                problems.append("%s: the permission %r is longer than %d characters." % (where, perm, PERM_MAX))
         matches = [f for f in files if f.startswith("%s-%s." % (name, version))]
         if len(matches) != 1:
             problems.append("%s: I need exactly one package file named %s-%s.<ext> next to repo.toml (found %d)." % (where, name, version, len(matches)))
             continue
         fname = matches[0]
         used.add(fname)
+        if not URL_RE.match(fname) or ".." in fname or "//" in fname:
+            problems.append("%s: the package file name %s is not one a device accepts (letters, digits, . _ - only, at most 95)." % (where, fname))
         with open(os.path.join(folder, fname), "rb") as fh:
             data = fh.read()
         info = package_info(data)

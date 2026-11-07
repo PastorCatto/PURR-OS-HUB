@@ -113,6 +113,19 @@ class HubSign(unittest.TestCase):
         self.assertEqual(self.build(), 0)
         self.assertNotIn("endorsement", json.load(open(os.path.join(self.folder, "repo.json"))))
 
+    def test_fields_longer_than_the_device_keeps_are_refused(self):
+        self.add("w10m", "1.0.32", package("w10m", "1.0.32"), extra='')
+        path = os.path.join(self.folder, "items", "w10m.toml")
+        text = open(path).read().replace('desc = "d"', 'desc = "%s"' % ("x" * 80))
+        open(path, "w").write(text)
+        self.assertEqual(hs.main(["check"]), 1)
+        open(path, "w").write(text.replace("x" * 80, "x" * 79))
+        self.assertEqual(hs.main(["check"]), 0)
+
+    def test_version_the_device_cannot_read(self):
+        self.add("w10m", "1.0_32", package("w10m", "1.0_32"))
+        self.assertEqual(hs.main(["check"]), 1)
+
     def test_wrong_passphrase(self):
         os.environ["PURRHUB_KEY_PASSWORD"] = "nope-nope"
         self.assertEqual(self.build(), 1)
