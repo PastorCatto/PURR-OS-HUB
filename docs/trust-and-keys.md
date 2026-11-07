@@ -19,7 +19,7 @@ A device runs an app if one of two things holds: the app is signed by a key that
 
 ## Status
 
-The new boot, developer and hub keys exist, and their public halves are in `keys/` (`keys/KEYS.md` lists them with their fingerprints and the rotation log). Nothing is signed with them yet, so nothing signed is published; that starts once the release signing moves to the new keys. The old keys (ids 1 and 2) stay in service until the rotation finishes. The nightly key does not exist yet.
+The new keys are in keys/. The hub key (id 5) signs the official repository and the Windows 10 Mobile style shell; the developer key (id 4) signs the project's own apps. The boot key (id 3) does not sign anything yet: the OS images are still signed by the old boot key until the rotation is finished (keys/KEYS.md has the log).
 
 ## Shells are different
 
