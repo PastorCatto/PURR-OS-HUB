@@ -211,11 +211,25 @@ def repositories(only=None):
     return out
 
 
+def package_files(folder):
+    """Every package file under the repository folder as a path relative to it, with "/" (so "apps/clock-1.0.0.cat"). The index and the signatures stay at the
+    root; items/ and hidden folders are skipped. The device joins this path to the repository's address, so a subfolder is as good as the root."""
+    found = []
+    for dirpath, dirs, names in os.walk(folder):
+        rel = os.path.relpath(dirpath, folder)
+        dirs[:] = sorted(d for d in dirs if not d.startswith(".") and not (rel == "." and d == "items"))
+        for f in names:
+            if f.endswith(NOT_PACKAGES) or f.startswith("."):
+                continue
+            found.append(f if rel == "." else rel.replace(os.sep, "/") + "/" + f)
+    return sorted(found)
+
+
 def read_items(folder):
     """Returns (items, problems, warnings). items: [{"file", "data", "item", "info"}] sorted by package file name."""
     problems, warnings, items = [], [], []
     idir = os.path.join(folder, "items")
-    files = sorted(f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f)) and not f.endswith(NOT_PACKAGES) and not f.startswith("."))
+    files = package_files(folder)
     used = set()
     for t in sorted(os.listdir(idir)) if os.path.isdir(idir) else []:
         if not t.endswith(".toml"):
@@ -248,9 +262,9 @@ def read_items(folder):
         for perm in item.get("perms", []) or []:
             if len(str(perm)) > PERM_MAX:
                 problems.append("%s: the permission %r is longer than %d characters." % (where, perm, PERM_MAX))
-        matches = [f for f in files if f.startswith("%s-%s." % (name, version))]
+        matches = [f for f in files if f.rsplit("/", 1)[-1].startswith("%s-%s." % (name, version))]
         if len(matches) != 1:
-            problems.append("%s: I need exactly one package file named %s-%s.<ext> next to repo.toml (found %d)." % (where, name, version, len(matches)))
+            problems.append("%s: I need exactly one package file named %s-%s.<ext> in the repository folder or a subfolder such as apps/ (found %d)." % (where, name, version, len(matches)))
             continue
         fname = matches[0]
         used.add(fname)
@@ -297,7 +311,7 @@ def read_items(folder):
     for key, n in seen.items():
         if n > 2:
             warnings.append("%s has %d versions; keep the current and the previous one." % (key, n))
-    items.sort(key=lambda i: i["file"])
+    items.sort(key=lambda i: i["file"].rsplit("/", 1)[-1])
     return items, problems, warnings
 
 

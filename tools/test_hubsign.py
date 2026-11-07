@@ -101,6 +101,21 @@ class HubSign(unittest.TestCase):
         os.remove(os.path.join(self.folder, "items", "w10m.toml"))
         self.assertEqual(hs.main(["check"]), 0)
 
+    def test_packages_may_sit_in_subfolders(self):
+        os.makedirs(os.path.join(self.folder, "shells"))
+        os.rename(os.path.join(self.folder, "w10m-1.0.32.cat"), os.path.join(self.folder, "shells", "w10m-1.0.32.cat"))
+        self.assertEqual(self.build(), 0)
+        self.assertEqual(hs.main(["check", "--strict"]), 0)
+        index = json.load(open(os.path.join(self.folder, "index.json")))
+        self.assertEqual(index["apps"][0]["url"], "shells/w10m-1.0.32.cat")
+        # the same package twice (root and subfolder) is ambiguous
+        shutil.copy(os.path.join(self.folder, "shells", "w10m-1.0.32.cat"), os.path.join(self.folder, "w10m-1.0.32.cat"))
+        self.assertEqual(hs.main(["check"]), 1)
+        # a path a device would refuse (a hidden folder) is not searched
+        os.remove(os.path.join(self.folder, "w10m-1.0.32.cat"))
+        os.rename(os.path.join(self.folder, "shells"), os.path.join(self.folder, ".hidden"))
+        self.assertEqual(hs.main(["check"]), 1)
+
     def test_item_without_package_and_bad_name(self):
         os.remove(os.path.join(self.folder, "w10m-1.0.32.cat"))
         self.assertEqual(hs.main(["check"]), 1)
