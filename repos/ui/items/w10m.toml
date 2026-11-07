@@ -14,3 +14,4 @@ min_os = "1.0.32"
 changelog = ""
 chip = "esp32s3"
 needs_sd = 0
+licence = "MIT"
