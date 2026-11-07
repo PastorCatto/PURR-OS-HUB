@@ -11,17 +11,20 @@ repos/games/                   games (an app of kind "game")
 repos/drivers/                 drivers
 repos/extras/                  themes, fonts, sounds, other data
 repos/ui/                      official shells (user interfaces)
-                               each repository folder: repo.json, repo.json.sig, index.json, index.json.sig
+                               each repository folder holds repo.json, repo.json.sig, index.json,
+                               index.json.sig, the packages beside them (for example w10m-1.0.32.cat)
+                               and items/<name>.toml, the small unsigned description of each item
+                               that the signing step reads
 submissions/                   the entry schema and an example for pull requests
-.github/                       the pull request template (and later the workflows)
+.github/                       the pull request template (and later the checks)
 docs/                          these documents
 ```
 
-Later, when signing starts: `ci/` (the checks), `tools/` (`make_site.py`, `verify_hub.py`).
+One signing tool will be added when signing starts.
 
 ## What is committed and what is not
 
-Committed to `main`: everything above, all small text files that a person can review. The large files (kernel, loader, KittenOS and app, game and shell packages) are not committed: CI builds the static site from them and publishes it ([hosting.md](hosting.md)). A manifest or an index names each large file with its size and sha256, so the site can be rebuilt and checked at any time.
+Everything is committed to `main`, binaries included: OS images and the app, game, driver, extras and shell packages sit next to the manifest or index that names them with their size and sha256 ([hosting.md](hosting.md)). Each item keeps its current and previous version only.
 
 ## Item types in a repository
 

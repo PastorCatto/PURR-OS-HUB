@@ -2,7 +2,7 @@
 
 The hub is where a PURR OS device gets everything that is not already in it: OS updates (OTA), apps, games, drivers, extras (themes, fonts, sounds) and shells (user interfaces). It is a set of static files. There is no server to run and nothing here executes on a device.
 
-This repository holds the small, reviewable part (lists, indexes, signatures, documentation, checks). The big files (OS images, app and shell packages) are built into a static site by CI and served from there; they are never committed to `main`. See [docs/hosting.md](docs/hosting.md).
+This repository holds everything: lists, indexes, signatures, documentation and the files themselves (OS images, app and shell packages). A device reads it directly from `main` through its raw GitHub address, so updating the repository updates the Store. See [docs/hosting.md](docs/hosting.md).
 
 **Status:** the layout and the rules are written; nothing is signed or published yet. The new signing keys exist and their public halves are in [keys/](keys/KEYS.md), but nothing is signed with them yet ([docs/trust-and-keys.md](docs/trust-and-keys.md)), so `hub.json` and every signature are added after that.
 
