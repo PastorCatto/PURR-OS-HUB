@@ -10,13 +10,13 @@ This repository holds everything: lists, indexes, signatures, documentation and 
 
 1. It asks for `hub.json`: a signed list of **channels** (`stable`, `beta`, `dev`), each with a base address, a trust rule and a version floor rule.
 2. For the OS it reads that channel's manifests under `os/<channel>/` and verifies every image against the keys built into the device. The install of OS images stays in the recovery loader and KittenOS, which keep their own copy of the address, so a broken OS can still repair itself.
-3. For apps, games, drivers, extras and shells it reads the repository's `repo.json` and `index.json` (and their signatures) under `repos/<name>/`, the same format the Store already understands.
+3. For apps, games, drivers, extras and shells it reads the repository's `repo.json` and `index.json` (and their signatures) under `repos/official/`, the same format the Store already understands.
 
 A host can never make a device run something it should not: images and packages are verified against keys on the device whatever address they came from. A wrong or hostile host can only withhold updates, and the signed `moved.txt` in `os/<channel>/` is the way to point devices somewhere else.
 
 ## What is where
 
-See [docs/layout.md](docs/layout.md). In short: `hub.json`, `keys/`, `os/`, `repos/{apps,games,drivers,extras,ui}/` (only `apps` and `ui` exist so far), `submissions/`, `docs/`.
+See [docs/layout.md](docs/layout.md). In short: `hub.json`, `keys/`, `os/`, `repos/official/` (the one official repository: apps and shells), `submissions/`, `docs/`.
 
 ## Contributing
 

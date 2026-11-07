@@ -6,15 +6,11 @@ hub.json  hub.json.sig         signed list of channels (added after the key rota
 keys/                          PUBLIC keys only; KEYS.md says what each is for
 os/stable/  beta/  dev/        recovery.manifest, modules.manifest, drivers.manifest,
                                withdrawn.list, moved.txt + moved.txt.sig
-repos/apps/                    apps (exists, signed)
-repos/games/                   games (an app of kind "game"; not created yet)
-repos/drivers/                 drivers (not created yet)
-repos/extras/                  themes, fonts, sounds, other data (not created yet)
-repos/ui/                      official shells (user interfaces) (exists, signed)
-                               each repository folder holds repo.json, repo.json.sig, index.json,
-                               index.json.sig, the packages beside them (for example w10m-1.0.32.cat)
-                               and items/<name>.toml, the small unsigned description of each item
-                               that the signing step reads
+repos/official/                the one official repository: apps and shells (later themes and
+                               other items) together. It holds repo.toml, repo.json, repo.json.sig,
+                               index.json, index.json.sig, the packages beside them (for example
+                               w10m-1.0.32.cat) and items/<name>.toml, the small unsigned
+                               description of each item that the signing step reads
 submissions/                   the entry schema and an example for pull requests
 .github/                       the pull request template (and later the checks)
 docs/                          these documents
@@ -28,4 +24,10 @@ Everything is committed to `main`, binaries included: OS images and the app, gam
 
 ## Item types in a repository
 
-An index entry has a `type`: `app` (default), `asset`, `extra`, `theme` (one `pack.bin`, up to 4 MB) or `shell` (one signed `shell.cat`, up to 1 MB, which carries its own pictures). The full format is `Repositories/SPEC.md` in the firmware repository (https://github.com/PastorCatto/PURR-OS-ESP32). Official shells are in `repos/ui`; official themes are in `repos/extras`.
+An index entry has a `type`: `app` (default), `asset`, `extra`, `theme` (one `pack.bin`, up to 4 MB) or `shell` (one signed `shell.cat`, up to 1 MB, which carries its own pictures). The full format is `Repositories/SPEC.md` in the firmware repository (https://github.com/PastorCatto/PURR-OS-ESP32). All official items are in `repos/official`; the Store tells apps, shells and themes apart by each item's `type` and `category`, not by folder.
+
+## One key is one repository
+
+A device knows a repository by its **key** fingerprint, so one key is one repository. Two folders signed with the same key would be the same repository on a device, and the second would overwrite the first. That is why the hub has a single official repository. An additional repository needs its **own key**, endorsed by the hub key, and its own folder under `repos/`.
+
+**Known limit:** a device holds at most 32 items per repository today.
