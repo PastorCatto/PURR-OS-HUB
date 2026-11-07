@@ -24,4 +24,4 @@ Third-party apps and games are added by pull request ([docs/submissions.md](docs
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). The apps, games and shells listed here keep their own licences, shown by the Store before installing.
+MIT, see [LICENSE](LICENSE). This licence covers this repository's own files (documents and tools). The apps, games and shells listed here are not all under one licence: each item names its own licence in its `items/<name>.toml`, and there is no repository-wide default.

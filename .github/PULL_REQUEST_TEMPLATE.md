@@ -7,7 +7,7 @@ A package (the binary) for an app or a game, and its `items/<name>.toml` (not a 
 - Source link and the commit the package was built from:
 - Permissions the app asks for, and why:
 - Minimum OS version:
-- Licence:
+- Licence of this item:
 
 ## Checklist
 

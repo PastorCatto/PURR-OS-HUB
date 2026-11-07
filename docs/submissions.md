@@ -4,7 +4,7 @@ Anyone can run their own repository under their own key and rules; a user adds i
 
 ## What a submission says
 
-The `items/<name>.toml` carries `name`, `title`, `version`, `desc`, `type` (`app`; a game is an app with `category = "game"`), `source` (a link to the source code), the **commit** the package was built from (in the toml or in the pull request), the `perms` the app asks for, `min_os`, and the licence. The field names follow section 3.2 of `Repositories/SPEC.md` in the firmware repository.
+The `items/<name>.toml` carries `name`, `title`, `version`, `desc`, `type` (`app`; a game is an app with `category = "game"`), `source` (a link to the source code), the **commit** the package was built from (in the toml or in the pull request), the `perms` the app asks for, `min_os`, and the item's own licence (every item names its own; there is no default). The field names follow section 3.2 of `Repositories/SPEC.md` in the firmware repository.
 
 The package is built by the author from that commit. The author may sign it with their own key or leave it unsigned; either way a device accepts it because the hub's signed index vouches for those exact bytes (the size and sha256 in the signed entry), and only as an unprivileged app. Devices do not trust an author's key, and the project's developer key is not used for third-party apps.
 
