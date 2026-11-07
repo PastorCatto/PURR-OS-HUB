@@ -17,7 +17,7 @@ A device runs an app if one of two things holds: the app is signed by a key that
 
 ## Status
 
-The keys are being rotated first; nothing signed is published until the new keys exist. `keys/KEYS.md` records the public keys, their fingerprints and the rotation log once they do.
+The new boot, developer and hub keys exist, and their public halves are in `keys/` (`keys/KEYS.md` lists them with their fingerprints and the rotation log). Nothing is signed with them yet, so nothing signed is published; that starts once the release signing moves to the new keys. The old keys (ids 1 and 2) stay in service until the rotation finishes. The nightly key does not exist yet.
 
 ## Shells are different
 
