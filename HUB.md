@@ -16,7 +16,7 @@ A host can never make a device run something it should not: images and packages 
 
 ## What is where
 
-See [docs/layout.md](docs/layout.md). In short: `hub.json`, `keys/`, `os/`, `repos/{apps,games,drivers,extras,ui}/`, `submissions/`, `docs/`.
+See [docs/layout.md](docs/layout.md). In short: `hub.json`, `keys/`, `os/`, `repos/{apps,games,drivers,extras,ui}/` (only `apps` and `ui` exist so far), `submissions/`, `docs/`.
 
 ## Contributing
 

@@ -1,0 +1,12 @@
+[item]
+name = "messages"
+version = "0.1.2"
+type = "app"
+title = "Messages"
+desc = "One front end for messaging services: Meshtastic, Reticulum, MeshCore."
+category = "communication"
+perms = ["messaging", "contacts", "shared-storage"]
+min_os = "1.0.0"
+source = "https://github.com/PastorCatto/PURR-OS-ESP32/tree/07d79cd6e4f80af42ab39ee798ad3caa5f195db8/Apps/messages"
+commit = "07d79cd6e4f80af42ab39ee798ad3caa5f195db8"
+licence = "GPL-3.0"

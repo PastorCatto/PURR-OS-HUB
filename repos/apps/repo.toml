@@ -1,0 +1,8 @@
+# The release file of the official apps repository (see repos/ui/repo.toml). A fork changes the name, the maintainer and the url, and leaves out endorse_key_id.
+[repo]
+name = "PURR Official: apps"
+description = "The apps that come from the PURR OS project."
+maintainer = "PastorCatto"
+url = "https://github.com/PastorCatto/PURR-OS-HUB"
+min_os = "1.0.0"
+endorse_key_id = 5

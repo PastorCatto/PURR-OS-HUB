@@ -1,0 +1,12 @@
+[item]
+name = "notes"
+version = "1.1.0"
+type = "app"
+title = "Notes"
+desc = "Plain-text notes, one file each, kept in the app's own data folder."
+category = "tools"
+perms = []
+min_os = "1.0.0"
+source = "https://github.com/PastorCatto/PURR-OS-ESP32/tree/07d79cd6e4f80af42ab39ee798ad3caa5f195db8/Apps/notes"
+commit = "07d79cd6e4f80af42ab39ee798ad3caa5f195db8"
+licence = "GPL-3.0"

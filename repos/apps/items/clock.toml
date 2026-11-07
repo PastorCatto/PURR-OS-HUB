@@ -1,0 +1,12 @@
+[item]
+name = "clock"
+version = "1.0.0"
+type = "app"
+title = "Clock"
+desc = "A clock with a stopwatch and a timer."
+category = "tools"
+perms = []
+min_os = "1.0.0"
+source = "https://github.com/PastorCatto/PURR-OS-ESP32/tree/07d79cd6e4f80af42ab39ee798ad3caa5f195db8/Apps/clock"
+commit = "07d79cd6e4f80af42ab39ee798ad3caa5f195db8"
+licence = "GPL-3.0"

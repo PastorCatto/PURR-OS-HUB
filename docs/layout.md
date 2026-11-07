@@ -6,11 +6,11 @@ hub.json  hub.json.sig         signed list of channels (added after the key rota
 keys/                          PUBLIC keys only; KEYS.md says what each is for
 os/stable/  beta/  dev/        recovery.manifest, modules.manifest, drivers.manifest,
                                withdrawn.list, moved.txt + moved.txt.sig
-repos/apps/                    apps
-repos/games/                   games (an app of kind "game")
-repos/drivers/                 drivers
-repos/extras/                  themes, fonts, sounds, other data
-repos/ui/                      official shells (user interfaces)
+repos/apps/                    apps (exists, signed)
+repos/games/                   games (an app of kind "game"; not created yet)
+repos/drivers/                 drivers (not created yet)
+repos/extras/                  themes, fonts, sounds, other data (not created yet)
+repos/ui/                      official shells (user interfaces) (exists, signed)
                                each repository folder holds repo.json, repo.json.sig, index.json,
                                index.json.sig, the packages beside them (for example w10m-1.0.32.cat)
                                and items/<name>.toml, the small unsigned description of each item
