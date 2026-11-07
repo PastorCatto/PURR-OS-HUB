@@ -10,4 +10,4 @@
 
 ## What CI does and does not do
 
-CI only checks a change: size caps, formats, sha256 values and the type rules (see [submissions.md](submissions.md)). It publishes nothing. **CI never holds the boot key, the hub key or any passphrase.** Signing happens offline on the owner's computer.
+CI only checks a change with `tools/hubsign.py check --strict` (see [submissions.md](submissions.md)); it is switched on after the first `build`, because an unsigned repository fails the strict check. It publishes nothing. **CI never holds the boot key, the hub key or any passphrase.** Signing happens offline on the owner's computer.

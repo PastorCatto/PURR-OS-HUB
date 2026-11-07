@@ -1,16 +1,19 @@
 ## What this adds
 
-A package (the binary) for an app or a game, and its `items/<name>.toml` (not a shell, and nothing privileged).
+A package (the binary) for an app or a game, and its `items/<name>.toml` (not a shell, and nothing privileged). See `submissions/item.example.toml`.
 
-- Name and version:
+- Name, version and type:
+- Title, description and category:
 - Source link and the commit the package was built from:
 - Permissions the app asks for, and why:
+- Minimum OS version:
 - Licence:
 
 ## Checklist
 
 - [ ] I built the package from the commit above.
-- [ ] The package is in `repos/apps/` or `repos/games/` and its `items/<name>.toml` is next to it, following `docs/submissions.md`.
+- [ ] The package `repos/<apps or games>/<name>-<version>.<ext>` and `repos/<apps or games>/items/<name>.toml` are both in this change, following `docs/submissions.md`.
+- [ ] I did not write `size`, `sha256` or `url`; the owner's `build` fills them in.
 - [ ] The permissions in the toml are the permissions in the package.
 - [ ] This is not a shell or anything privileged (those stay in the author's own repository).
 - [ ] Only the current and previous version of this item are in the change.

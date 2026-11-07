@@ -1,0 +1,12 @@
+[item]
+name = "clock"
+version = "1.2.0"
+type = "app"
+title = "Clock"
+desc = "Tells the time and keeps an alarm."
+category = "tools"
+perms = ["keep-awake"]
+min_os = "1.0.0"
+source = "https://example.org/clock"
+commit = "0123456789abcdef0123456789abcdef01234567"
+licence = "MIT"

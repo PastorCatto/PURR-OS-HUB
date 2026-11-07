@@ -8,18 +8,27 @@ The `items/<name>.toml` carries `name`, `title`, `version`, `desc`, `type` (`app
 
 The package is built by the author from that commit. The author may sign it with their own key or leave it unsigned; either way a device accepts it because the hub's signed index vouches for those exact bytes (the size and sha256 in the signed entry), and only as an unprivileged app. Devices do not trust an author's key, and the project's developer key is not used for third-party apps.
 
-The `url`, `size` and `sha256` of an index entry are not written by hand: `tools/hubsign.py` computes them from the package. `submissions/entry.example.json` shows the finished entry in the index; its all-zero sha256 is a placeholder, and a real entry carries the package's real sha256 and size.
+`submissions/item.example.toml` is an example. For it, a contributor adds the package `repos/apps/clock-1.2.0.cat` and its description `repos/apps/items/clock.toml`; the package file is named `<name>-<version>.<ext>`.
+
+The contributor does **not** write `size`, `sha256` or `url`: `python3 tools/hubsign.py build` fills them in from the package when the owner signs. `commit` and `licence` are for the reviewer and are not copied into the index (the tool ignores fields it does not know). Whether a licence ever reaches the Store is still the owner's open decision.
 
 ## What CI checks
 
-CI only checks (`python3 tools/hubsign.py check --strict`, which needs no key); it publishes nothing and never holds the hub key or a passphrase.
+CI runs `python3 tools/hubsign.py check --strict`, which needs no key. It publishes nothing and never holds the hub key or a passphrase. It is switched on only after the first `build`, because an unsigned repository fails the strict check. It checks:
 
-- the package is within the size caps and is a valid app image whose name and version match the toml;
-- the sha256 and size are the package's own;
-- the permissions in the package are the permissions in the toml (and none of them is one the hub does not allow third parties);
-- the type rules hold (an app, not a shell or anything privileged);
-- the source link and commit exist;
-- no secrets are in the change.
+- names, versions and types in the toml, and that exactly one package file matches each item;
+- sizes (within the caps) and that the package's payload hash matches its header;
+- the shell rules (a shell must be a signed loadable shell module of at most 1 MB with `dest = "shell.cat"`), and that an app is a PURR app package and a module is not an item;
+- that the existing signatures verify and that `index.json` is not out of date.
+
+## What the owner checks by hand
+
+The owner checks the rest before merging; the tool does not, and may automate some of it later:
+
+- that the source link and the commit exist and match the package;
+- that the permissions in the toml match what the package asks for;
+- that the package is unprivileged;
+- that nothing private is in the change.
 
 ## What the owner does
 
