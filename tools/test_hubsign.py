@@ -126,6 +126,24 @@ class HubSign(unittest.TestCase):
         self.add("w10m", "1.0_32", package("w10m", "1.0_32"))
         self.assertEqual(hs.main(["check"]), 1)
 
+    def test_one_key_is_one_repository(self):
+        self.assertEqual(self.build(), 0)
+        other = os.path.join(self.tmp, "repos", "games")
+        os.makedirs(os.path.join(other, "items"))
+        with open(os.path.join(other, "repo.toml"), "w") as fh:
+            fh.write('[repo]\nname = "Games"\n')
+        self.assertEqual(hs.main(["build", "--key", self.key, "--only", "games", "--now", "1000"]), 1)   # the same key already signs repos/ui
+        self.assertEqual(hs.main(["build", "--key", self.key, "--now", "1000"]), 1)                       # two folders in one run
+        self.assertFalse(os.path.exists(os.path.join(other, "repo.json")))
+
+    def test_check_finds_two_folders_with_one_key(self):
+        self.build()
+        other = os.path.join(self.tmp, "repos", "games")
+        os.makedirs(os.path.join(other, "items"))
+        shutil.copy(os.path.join(self.folder, "repo.toml"), os.path.join(other, "repo.toml"))
+        shutil.copy(os.path.join(self.folder, "repo.json"), os.path.join(other, "repo.json"))
+        self.assertEqual(hs.main(["check", "--only", "ui"]), 1)
+
     def test_wrong_passphrase(self):
         os.environ["PURRHUB_KEY_PASSWORD"] = "nope-nope"
         self.assertEqual(self.build(), 1)

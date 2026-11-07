@@ -8,7 +8,9 @@ It needs Python 3.9 or newer and the `cryptography` package. It does not need th
   python3 tools/hubsign.py check             look at every repository: items, packages, sizes, existing signatures. Needs no key.
   python3 tools/hubsign.py build             check, then rewrite repo.json and index.json (and their .sig files) with the key
 
-A repository is a folder repos/<kind>/ with a repo.toml, the packages, and items/<name>.toml next to each (the small description of one package).
+A repository is a folder repos/<name>/ with a repo.toml, the packages, and items/<name>.toml next to each (the small description of one package).
+A device knows a repository by its key, so every repository needs its OWN key: two folders signed with one key would be the same repository on a device.
+`build` therefore signs one folder per run (--only <name>) and refuses a key that already signs another folder.
 The format is Repositories/SPEC.md in the firmware repository (https://github.com/PastorCatto/PURR-OS-ESP32). The key's passphrase is asked for,
 or taken from PURRHUB_KEY_PASSWORD in the environment of the one command; it is never written anywhere.
 """
@@ -369,8 +371,24 @@ def check_signatures(folder):
     return problems, warnings
 
 
+def repo_ids():
+    """{folder: id} for every repository that already has a repo.json."""
+    out = {}
+    for kind, folder in repositories():
+        rj = _read_json(os.path.join(folder, "repo.json"))
+        if rj and rj.get("id"):
+            out[kind] = rj["id"]
+    return out
+
+
 def cmd_check(args):
     bad = 0
+    ids = repo_ids()
+    for kind, rid in sorted(ids.items()):
+        twins = sorted(k for k, v in ids.items() if v == rid and k != kind)
+        if twins:
+            print("repos/%s: PROBLEM it has the same key (id %s) as repos/%s; a device would see one repository, not two." % (kind, rid, ", repos/".join(twins)))
+            bad += 1
     repos = repositories(args.only)
     if not repos:
         print("no repository with a repo.toml under repos/")
@@ -401,6 +419,8 @@ def cmd_build(args):
     repos = repositories(args.only)
     if not repos:
         raise HubError("no repository with a repo.toml under repos/")
+    if len(repos) > 1:
+        raise HubError("one run signs one repository (use --only <name>): a device knows a repository by its key, so each needs its own key.")
     plan = []
     for kind, folder in repos:
         items, problems, warnings = read_items(folder)
@@ -413,6 +433,9 @@ def cmd_build(args):
         plan.append((kind, folder, items))
     priv = load_private(args.key)
     pub = raw_pub(priv.public_key())
+    for other, rid in repo_ids().items():
+        if rid == fingerprint(pub) and other != plan[0][0]:
+            raise HubError("this key already signs repos/%s; a device would see one repository, not two. Give repos/%s its own key (endorsed by the hub key)." % (other, plan[0][0]))
     now = int(args.now if args.now is not None else time.time())
     print("signing with the key %s (fingerprint %s)" % (args.key, fingerprint(pub)))
     for kind, folder, items in plan:
