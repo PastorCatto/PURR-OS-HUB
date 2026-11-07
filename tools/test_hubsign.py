@@ -116,6 +116,14 @@ class HubSign(unittest.TestCase):
         os.rename(os.path.join(self.folder, "shells"), os.path.join(self.folder, ".hidden"))
         self.assertEqual(hs.main(["check"]), 1)
 
+    def test_moving_a_package_makes_the_index_stale(self):
+        self.build()
+        os.makedirs(os.path.join(self.folder, "shells"))
+        os.rename(os.path.join(self.folder, "w10m-1.0.32.cat"), os.path.join(self.folder, "shells", "w10m-1.0.32.cat"))
+        self.assertEqual(hs.main(["check", "--strict"]), 1)
+        self.build()
+        self.assertEqual(hs.main(["check", "--strict"]), 0)
+
     def test_item_without_package_and_bad_name(self):
         os.remove(os.path.join(self.folder, "w10m-1.0.32.cat"))
         self.assertEqual(hs.main(["check"]), 1)

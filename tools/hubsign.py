@@ -414,10 +414,10 @@ def cmd_check(args):
         # the committed index must say what the folder holds
         idx = _read_json(os.path.join(folder, "index.json"))
         if idx is not None and not sp:
-            have = sorted((a.get("name"), a.get("version"), a.get("sha256")) for a in idx.get("apps", []))
-            want = sorted((i["item"]["name"], i["item"]["version"], hashlib.sha256(i["data"]).hexdigest()) for i in items)
+            have = sorted((a.get("name"), a.get("version"), a.get("sha256"), a.get("url")) for a in idx.get("apps", []))
+            want = sorted((i["item"]["name"], i["item"]["version"], hashlib.sha256(i["data"]).hexdigest(), i["file"]) for i in items)
             if have != want:
-                warnings.append("index.json is out of date: it does not list what the folder holds. Run `build`.")
+                warnings.append("index.json is out of date: it does not list what the folder holds (or names a package at a path it no longer has). Run `build`.")
         if args.strict:
             problems, warnings = problems + warnings, []
         print("repos/%s: %d item(s), %d problem(s), %d warning(s)" % (kind, len(items), len(problems), len(warnings)))
