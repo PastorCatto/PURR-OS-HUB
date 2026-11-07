@@ -17,7 +17,7 @@ submissions/                   the entry schema and an example for pull requests
 docs/                          these documents
 ```
 
-Later, when the keys exist: `ci/` (the checks), `tools/` (`make_site.py`, `verify_hub.py`).
+Later, when signing starts: `ci/` (the checks), `tools/` (`make_site.py`, `verify_hub.py`).
 
 ## What is committed and what is not
 
