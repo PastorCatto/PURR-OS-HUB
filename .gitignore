@@ -1,0 +1,5 @@
+# The private signing key and anything like it stay on the owner's machine. Everything else, tools included, is committed so that anyone can fork the hub
+# and recreate the store with their own key.
+signing_keys/
+*.key
+*.pem
