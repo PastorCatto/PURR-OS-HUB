@@ -22,5 +22,6 @@ What each key signs is in [../docs/trust-and-keys.md](../docs/trust-and-keys.md)
 | 2026-11-06 | Bootloader 0.5.0 built with all five public keys compiled in; run on the VM with a trust block signed by the new boot key and with the old keys. |
 | 2026-11-07 | Bootloader 0.5.0 flashed on the owner's T-Deck Plus. OS 1.0.32 (five keys compiled in, signed by the old boot key) published on the dev server. |
 | 2026-11-07 | The hub key signed the first official repository (apps and the Windows 10 Mobile style shell) and the developer key signed the first official apps. |
+| 2026-11-07 | The official repository is served at `https://raw.githubusercontent.com/PastorCatto/PURR-OS-HUB/main/repos/official` (commit 2c9427b). Fetched from there, its index verifies as signed by the hub key (id 5) and all five packages match their size and sha256. |
 
 Still to come: everything re-signed with the new keys, then the old keys (ids 1 and 2) revoked in bootloader 0.6.0. Each step is added to this log when it is done.
