@@ -1,0 +1,10 @@
+# The release file of this repository (what a device shows about it). A fork changes the name, the maintainer and the url, and leaves out endorse_key_id.
+[repo]
+name = "PURR Official: user interfaces"
+description = "The official shells (user interfaces) for PURR OS."
+maintainer = "PastorCatto"
+url = "https://github.com/PastorCatto/PURR-OS-HUB"
+min_os = "1.0.0"
+# The id a device knows this store's key by (the hub key). A device checks the endorsement against its own copy of that key and then treats the
+# repository as official. Only the project's own key can be endorsed this way: in a fork, delete this line (the repository is then a community one).
+endorse_key_id = 5
