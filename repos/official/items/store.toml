@@ -1,0 +1,12 @@
+[item]
+name = "store"
+version = "1.0.2"
+type = "app"
+title = "Store"
+desc = "Apps, themes and shells from the repositories you trust, with updates."
+category = "system"
+perms = ["install-apps"]
+min_os = "1.0.23"
+source = "https://github.com/PastorCatto/PURR-OS-ESP32/tree/6f4282ac46817b39d478b86691a98fa9a97bf2a9/Apps/store"
+commit = "6f4282ac46817b39d478b86691a98fa9a97bf2a9"
+# licence: not set yet. The owner has not said which licence the Store app carries (the four other hub apps are GPL-3.0); add the line when they do.
