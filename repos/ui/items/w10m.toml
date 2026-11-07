@@ -1,0 +1,15 @@
+[item]
+name = "w10m"
+version = "1.0.32"
+type = "shell"
+target = "flash"
+title = "Windows 10 Mobile style"
+desc = "The tile-based Windows 10 Mobile style shell. Picture pack included. Needs OS 1.0.32 or newer; a device refuses it if its kernel does not match."
+category = "shell"
+source = "https://github.com/PastorCatto/PURR-OS-ESP32"
+perms = []
+dest = "shell.cat"
+min_os = "1.0.32"
+changelog = ""
+chip = "esp32s3"
+needs_sd = 0
