@@ -4,7 +4,9 @@ Anyone can run their own repository under their own key and rules; a user adds i
 
 ## What an entry says
 
-`name`, `title`, `version`, `desc`, `type` (`app`; a game is an app with `category: "game"`), `url` (the package address), `sha256`, `size`, `source` (a link to the source code), the **commit** the package was built from, the `perms` the app asks for, `min_os`, and the licence. The package itself is built by the author from that commit and signed with the author's developer key, or vouched for by the hub's signed index after review.
+`name`, `title`, `version`, `desc`, `type` (`app`; a game is an app with `category: "game"`), `url` (the package address), `sha256`, `size`, `source` (a link to the source code), the **commit** the package was built from, the `perms` the app asks for, `min_os`, and the licence. The package is built by the author from that commit. The author may sign it with their own key or leave it unsigned; either way a device accepts it because the hub's signed index vouches for those exact bytes (the size and sha256 in the signed entry), and only as an unprivileged app. Devices do not trust an author's key, and the project's developer key is not used for third-party apps.
+
+The all-zero sha256 in `submissions/entry.example.json` is a placeholder; a real entry carries the package's real sha256 and size.
 
 ## What CI checks
 
